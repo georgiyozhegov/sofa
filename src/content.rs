@@ -1,7 +1,11 @@
-#[derive(Debug)]
+use crate::input::{
+        Action,
+        Direction,
+};
+
 pub struct Content
 {
-        content: Vec<String>,
+        pub content: Vec<String>,
         pub row: usize,
         pub column: usize,
 }
@@ -75,12 +79,18 @@ impl Content
                         self.column += 1;
                 }
         }
-}
 
-impl ToString for Content
-{
-        fn to_string(&self) -> String
+        pub fn update(&mut self, action: &Action)
         {
-                self.content.join("\n")
+                match action {
+                        Action::Insert(c) => self.insert(*c),
+                        Action::Delete => self.delete(),
+                        Action::NewLine => self.new_line(),
+                        Action::Move(Direction::Left) => self.move_left(),
+                        Action::Move(Direction::Down) => self.move_down(),
+                        Action::Move(Direction::Up) => self.move_up(),
+                        Action::Move(Direction::Right) => self.move_right(),
+                        _ => {}
+                }
         }
 }

@@ -27,6 +27,7 @@ pub enum Action
         NewLine,
         Quit,
         Move(Direction),
+        Switch(Mode),
 }
 
 pub struct Input
@@ -50,7 +51,7 @@ impl Input
                 match key {
                         KeyboardKey::KEY_ESCAPE => {
                                 self.mode = Mode::Base;
-                                None
+                                Some(Action::Switch(Mode::Base))
                         }
                         KeyboardKey::KEY_BACKSPACE => Some(Action::Delete),
                         KeyboardKey::KEY_ENTER => Some(Action::NewLine),
@@ -63,7 +64,7 @@ impl Input
                 match key {
                         KeyboardKey::KEY_ESCAPE => {
                                 self.mode = Mode::Insert;
-                                None
+                                Some(Action::Switch(Mode::Insert))
                         }
                         KeyboardKey::KEY_Q => Some(Action::Quit),
                         KeyboardKey::KEY_H => Some(Action::Move(Direction::Left)),
