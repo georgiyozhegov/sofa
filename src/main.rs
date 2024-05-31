@@ -11,11 +11,6 @@ use input::{
         Action,
         Input,
 };
-use draw::{
-        draw_content,
-        draw_cursor,
-        draw_background,
-};
 use raylib::{color::Color, drawing::RaylibDraw};
 
 fn main()
@@ -52,9 +47,9 @@ fn main()
         while !context.window_should_close() {
                 {
                         let mut canvas = context.begin_drawing(&thread);
-                        draw_background(&mut canvas, &config);
-                        draw_content(&mut canvas, &content, &font, &config);
-                        draw_cursor(&mut canvas, &cursor, &config);
+                        draw::background(&mut canvas, &config);
+                        draw::content(&mut canvas, &content, &font, &config);
+                        draw::cursor(&mut canvas, &cursor, &config);
                 }
 
                 if let Some(action) = input.action(&mut context) {
