@@ -13,7 +13,7 @@ use raylib::text::Font;
 
 pub fn background(canvas: &mut RaylibDrawHandle, config: &Config)
 {
-    canvas.clear_background(config.background_color);
+        canvas.clear_background(config.background_color);
 }
 
 pub fn content(canvas: &mut RaylibDrawHandle, content: &Content, font: &Font, config: &Config)

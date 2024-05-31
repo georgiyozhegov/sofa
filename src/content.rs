@@ -1,6 +1,7 @@
 use crate::input::{
         Action,
         Direction,
+        Item,
 };
 
 pub struct Content
@@ -27,17 +28,33 @@ impl Content
                 self.column += 1;
         }
 
-        pub fn delete(&mut self)
+        pub fn delete_char(&mut self)
         {
                 if self.column > 0 {
                         self.content[self.row].remove(self.column - 1);
                         self.column -= 1;
                 }
                 else if self.row > 0 {
+                        let line = self.content[self.row].clone();
+                        let index = self.column;
+                        self.content[self.row] = line[..index].to_string();
+                        self.row -= 1;
+                        self.column = self.content[self.row].len();
+                        self.content[self.row].push_str(&line[index..]);
+                }
+        }
+
+        pub fn delete_line(&mut self)
+        {
+                if self.row == 0  {
+                    self.content[self.row].clear();
+                    self.column = 0;
+                }
+                else {
                         self.content.remove(self.row);
                         self.row -= 1;
                         self.column = self.content[self.row].len();
-                }
+                } 
         }
 
         pub fn new_line(&mut self)
@@ -84,7 +101,8 @@ impl Content
         {
                 match action {
                         Action::Insert(c) => self.insert(*c),
-                        Action::Delete => self.delete(),
+                        Action::Delete(Item::Char) => self.delete_char(),
+                        Action::Delete(Item::Line) => self.delete_line(),
                         Action::NewLine => self.new_line(),
                         Action::Move(Direction::Left) => self.move_left(),
                         Action::Move(Direction::Down) => self.move_down(),

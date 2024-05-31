@@ -20,10 +20,17 @@ pub enum Direction
 }
 
 #[derive(Debug, PartialEq)]
+pub enum Item
+{
+        Char,
+        Line,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum Action
 {
         Insert(char),
-        Delete,
+        Delete(Item),
         NewLine,
         Quit,
         Move(Direction),
@@ -53,7 +60,7 @@ impl Input
                                 self.mode = Mode::Base;
                                 Some(Action::Switch(Mode::Base))
                         }
-                        KeyboardKey::KEY_BACKSPACE => Some(Action::Delete),
+                        KeyboardKey::KEY_BACKSPACE => Some(Action::Delete(Item::Char)),
                         KeyboardKey::KEY_ENTER => Some(Action::NewLine),
                         _ => Some(Action::Insert(context.get_char_pressed()?)),
                 }
@@ -71,20 +78,17 @@ impl Input
                         KeyboardKey::KEY_J => Some(Action::Move(Direction::Down)),
                         KeyboardKey::KEY_K => Some(Action::Move(Direction::Up)),
                         KeyboardKey::KEY_L => Some(Action::Move(Direction::Right)),
+                        KeyboardKey::KEY_D => Some(Action::Delete(Item::Line)),
                         _ => None,
                 }
         }
 
         pub fn action(&mut self, context: &mut RaylibHandle) -> Option<Action>
         {
-                if let Some(key) = context.get_key_pressed() {
-                        match self.mode {
-                                Mode::Insert => self.insert_mode_action(key, context),
-                                Mode::Base => self.base_mode_action(key),
-                        }
-                }
-                else {
-                        None
+                let key = context.get_key_pressed()?;
+                match self.mode {
+                        Mode::Insert => self.insert_mode_action(key, context),
+                        Mode::Base => self.base_mode_action(key),
                 }
         }
 }

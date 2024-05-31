@@ -11,7 +11,7 @@ use input::{
         Action,
         Input,
 };
-use raylib::{color::Color, drawing::RaylibDraw};
+use raylib::color::Color;
 
 fn main()
 {
