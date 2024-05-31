@@ -14,6 +14,7 @@ use input::{
 use draw::{
         draw_content,
         draw_cursor,
+        draw_background,
 };
 use raylib::{color::Color, drawing::RaylibDraw};
 
@@ -27,11 +28,10 @@ fn main()
                 19.0,
                 1.0,
                 Color::BLACK,
-                Color::WHITE.alpha(0.5),
+                Color::WHITE.alpha(0.8),
                 Color::PINK,
         );
 
-        // init
         let (mut context, thread) = raylib::init()
                 .size(config.window_width, config.window_height)
                 .resizable()
@@ -52,7 +52,7 @@ fn main()
         while !context.window_should_close() {
                 {
                         let mut canvas = context.begin_drawing(&thread);
-                        canvas.clear_background(config.background_color);
+                        draw_background(&mut canvas, &config);
                         draw_content(&mut canvas, &content, &font, &config);
                         draw_cursor(&mut canvas, &cursor, &config);
                 }

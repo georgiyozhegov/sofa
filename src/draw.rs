@@ -11,6 +11,11 @@ use raylib::drawing::{
 use raylib::math::Vector2;
 use raylib::text::Font;
 
+pub fn draw_background(canvas: &mut RaylibDrawHandle, config: &Config)
+{
+    canvas.clear_background(config.background_color);
+}
+
 pub fn draw_content(canvas: &mut RaylibDrawHandle, content: &Content, font: &Font, config: &Config)
 {
         for (index, line) in content.content.iter().enumerate() {
