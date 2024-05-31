@@ -10,7 +10,7 @@ pub enum Mode
         Base,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Direction
 {
         Left,
@@ -19,7 +19,7 @@ pub enum Direction
         Right,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Action
 {
         Insert(char),

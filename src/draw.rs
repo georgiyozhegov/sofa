@@ -4,7 +4,6 @@ use crate::cursor::{
         Cursor,
         Shape,
 };
-
 use raylib::drawing::{
         RaylibDraw,
         RaylibDrawHandle,

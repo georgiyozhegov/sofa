@@ -4,22 +4,18 @@ mod cursor;
 mod draw;
 mod input;
 
-use std::task::Context;
-
 use config::Config;
 use content::Content;
 use cursor::Cursor;
-use draw::{
-        draw_content,
-        draw_cursor,
-};
 use input::{
         Action,
         Input,
 };
-
-use raylib::color::Color;
-use raylib::drawing::RaylibDraw;
+use draw::{
+        draw_content,
+        draw_cursor,
+};
+use raylib::{color::Color, drawing::RaylibDraw};
 
 fn main()
 {
@@ -27,8 +23,8 @@ fn main()
                 600,
                 480,
                 "Sofa",
-                "/usr/share/fonts/TTF/JetBrainsMonoNLNerdFont-Regular.ttf",
-                30.0,
+                "/usr/share/fonts/TTF/AgaveNerdFont-Regular.ttf",
+                19.0,
                 1.0,
                 Color::BLACK,
                 Color::WHITE.alpha(0.5),
@@ -49,13 +45,9 @@ fn main()
                 .load_font_ex(&thread, config.font_path, config.font_size as i32, None)
                 .unwrap();
 
-        println!("{font:?}");
-
         let mut input = Input::new();
         let mut content = Content::new();
         let mut cursor = Cursor::new(&config);
-
-        context.get_window_state().set_vsync_hint(true);
 
         while !context.window_should_close() {
                 {
@@ -66,9 +58,8 @@ fn main()
                 }
 
                 if let Some(action) = input.action(&mut context) {
-                        match action {
-                                Action::Quit => break,
-                                _ => {}
+                        if action == Action::Quit {
+                                break;
                         }
                         content.update(&action);
                         cursor.update(&content, &action);
