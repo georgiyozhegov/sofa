@@ -2,6 +2,7 @@ use crate::input::{
         Action,
         Direction,
         Item,
+        Location,
 };
 
 pub struct Content
@@ -46,15 +47,15 @@ impl Content
 
         pub fn delete_line(&mut self)
         {
-                if self.row == 0  {
-                    self.content[self.row].clear();
-                    self.column = 0;
+                if self.row == 0 {
+                        self.content[self.row].clear();
+                        self.column = 0;
                 }
                 else {
                         self.content.remove(self.row);
                         self.row -= 1;
                         self.column = self.content[self.row].len();
-                } 
+                }
         }
 
         pub fn new_line(&mut self)
@@ -97,6 +98,18 @@ impl Content
                 }
         }
 
+        pub fn go_to_top(&mut self)
+        {
+                self.row = 0;
+                self.column = self.content[self.row].len().min(self.column);
+        }
+
+        pub fn go_to_bottom(&mut self)
+        {
+                self.row = self.content.len().max(1) - 1;
+                self.column = self.content[self.row].len().min(self.column);
+        }
+
         pub fn update(&mut self, action: &Action)
         {
                 match action {
@@ -108,6 +121,8 @@ impl Content
                         Action::Move(Direction::Down) => self.move_down(),
                         Action::Move(Direction::Up) => self.move_up(),
                         Action::Move(Direction::Right) => self.move_right(),
+                        Action::GoTo(Location::Top) => self.go_to_top(),
+                        Action::GoTo(Location::Bottom) => self.go_to_bottom(),
                         _ => {}
                 }
         }
