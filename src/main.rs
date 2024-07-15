@@ -26,6 +26,8 @@ fn main()
                 Color::BLACK,                                          // font color
                 Color::WHITE.alpha(0.8),                               // cursor color
                 Color::PINK,                                           // background color
+                23,                                                    // status line height
+                Color::WHITE.alpha(0.9),                               // status line color
         );
 
         let (mut context, thread) = raylib::init()
@@ -51,6 +53,7 @@ fn main()
                         draw::background(&mut canvas, &config);
                         draw::content(&mut canvas, &content, &font, &config);
                         draw::cursor(&mut canvas, &cursor, &config);
+                        draw::status_line(&mut canvas, &input, &font, &config);
                 }
 
                 if let Some(action) = input.action(&mut context) {
