@@ -16,15 +16,16 @@ use raylib::color::Color;
 fn main()
 {
         let config = Config::new(
-                600,
-                480,
-                "Sofa",
-                "/usr/share/fonts/TTF/AgaveNerdFont-Regular.ttf",
-                19.0,
-                1.0,
-                Color::BLACK,
-                Color::WHITE.alpha(0.8),
-                Color::PINK,
+                600,                                                   // width
+                480,                                                   // height
+                "Sofa",                                                // title
+                "/usr/share/fonts/TTF/IosevkaNerdFontMono-Medium.ttf", // font
+                23.0,                                                  // font size
+                0.4,                                                   // font scale
+                1.0,                                                   // font spacing
+                Color::BLACK,                                          // font color
+                Color::WHITE.alpha(0.8),                               // cursor color
+                Color::PINK,                                           // background color
         );
 
         let (mut context, thread) = raylib::init()

@@ -6,8 +6,6 @@ use crate::{
                 Mode,
         },
 };
-use raylib::text::Font;
-
 #[derive(PartialEq)]
 pub enum Shape
 {
@@ -31,7 +29,7 @@ impl Cursor
                 Self {
                         x: 0,
                         y: 0,
-                        width: (config.font_size * 0.5 + config.font_spacing) as i32,
+                        width: (config.font_size * config.font_scale + config.font_spacing) as i32,
                         height: config.font_size as i32,
                         shape: Shape::Block,
                 }
