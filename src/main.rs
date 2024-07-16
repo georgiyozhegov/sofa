@@ -28,7 +28,7 @@ fn main()
                 Color::PINK,                                           // background color
                 23,                                                    // status line height
                 Color::WHITE.alpha(0.9),                               // status line color
-                4, // tab size
+                4,                                                     // tab size
         );
 
         let (mut context, thread) = raylib::init()

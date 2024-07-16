@@ -31,6 +31,8 @@ pub enum Location
 {
         Top,
         Bottom,
+        StartOfLine,
+        EndOfLine,
 }
 
 #[derive(Debug, PartialEq)]
@@ -105,6 +107,8 @@ impl Input
                 match key {
                         KeyboardKey::KEY_T => Some(Action::GoTo(Location::Top)),
                         KeyboardKey::KEY_B => Some(Action::GoTo(Location::Bottom)),
+                        KeyboardKey::KEY_S => Some(Action::GoTo(Location::StartOfLine)),
+                        KeyboardKey::KEY_E => Some(Action::GoTo(Location::EndOfLine)),
                         KeyboardKey::KEY_Q => {
                                 self.modifier = None;
                                 None

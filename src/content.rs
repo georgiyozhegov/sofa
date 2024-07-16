@@ -1,10 +1,10 @@
+use crate::config::Config;
 use crate::input::{
         Action,
         Direction,
         Item,
         Location,
 };
-use crate::config::Config;
 
 pub struct Content
 {
@@ -71,10 +71,10 @@ impl Content
                 self.column = 0;
         }
 
-        pub fn tab(&mut self) 
+        pub fn tab(&mut self)
         {
                 for _ in 0..self.tab_size {
-                    self.insert(' ');
+                        self.insert(' ');
                 }
         }
 
@@ -120,6 +120,16 @@ impl Content
                 self.column = self.content[self.row].len().min(self.column);
         }
 
+        pub fn go_to_start_of_line(&mut self)
+        {
+                self.column = 0;
+        }
+
+        pub fn go_to_end_of_line(&mut self)
+        {
+                self.column = self.content[self.row].len();
+        }
+
         pub fn update(&mut self, action: &Action)
         {
                 match action {
@@ -134,6 +144,8 @@ impl Content
                         Action::Move(Direction::Right) => self.move_right(),
                         Action::GoTo(Location::Top) => self.go_to_top(),
                         Action::GoTo(Location::Bottom) => self.go_to_bottom(),
+                        Action::GoTo(Location::StartOfLine) => self.go_to_start_of_line(),
+                        Action::GoTo(Location::EndOfLine) => self.go_to_end_of_line(),
                         _ => {}
                 }
         }
