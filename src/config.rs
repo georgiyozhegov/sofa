@@ -3,8 +3,8 @@ use raylib::color::Color;
 #[derive(Debug)]
 pub struct Config
 {
-        pub window_initial_width: i32,
-        pub window_initial_height: i32,
+        pub window_width: i32,
+        pub window_height: i32,
         pub window_title: &'static str,
         pub font_path: &'static str,
         pub font_size: f32,
@@ -23,8 +23,8 @@ pub struct Config
 impl Config
 {
         pub fn new(
-                window_initial_width: i32,
-                window_initial_height: i32,
+                window_width: i32,
+                window_height: i32,
                 window_title: &'static str,
                 font_path: &'static str,
                 font_size: f32,
@@ -41,8 +41,8 @@ impl Config
         ) -> Self
         {
                 Self {
-                        window_initial_width,
-                        window_initial_height,
+                        window_width,
+                        window_height,
                         window_title,
                         font_path,
                         font_size,

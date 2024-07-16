@@ -9,7 +9,6 @@ use crate::input::{
         Mode,
         Modifier,
 };
-use crate::state::State;
 use raylib::drawing::{
         RaylibDraw,
         RaylibDrawHandle,
@@ -52,12 +51,12 @@ pub fn cursor(canvas: &mut RaylibDrawHandle, cursor: &Cursor, config: &Config)
         );
 }
 
-fn status_line_background(canvas: &mut RaylibDrawHandle, config: &Config, state: &State)
+fn status_line_background(canvas: &mut RaylibDrawHandle, config: &Config)
 {
         canvas.draw_rectangle(
                 0,
-                state.window_height - config.status_line_height,
-                state.window_width,
+                config.window_height - config.status_line_height,
+                config.window_width,
                 config.status_line_height,
                 config.status_line_color,
         );
@@ -81,14 +80,14 @@ fn status(input: &Input) -> String
         mode
 }
 
-fn status_line_mode(canvas: &mut RaylibDrawHandle, input: &Input, font: &Font, config: &Config, state: &State)
+fn status_line_mode(canvas: &mut RaylibDrawHandle, input: &Input, font: &Font, config: &Config)
 {
         canvas.draw_text_ex(
                 font,
                 &status(input),
                 Vector2::new(
                         0.0,
-                        (state.window_height - config.status_line_height) as f32,
+                        (config.window_height - config.status_line_height) as f32,
                 ),
                 config.font_size,
                 config.font_spacing,
@@ -96,8 +95,8 @@ fn status_line_mode(canvas: &mut RaylibDrawHandle, input: &Input, font: &Font, c
         );
 }
 
-pub fn status_line(canvas: &mut RaylibDrawHandle, input: &Input, font: &Font, config: &Config, state: &State)
+pub fn status_line(canvas: &mut RaylibDrawHandle, input: &Input, font: &Font, config: &Config)
 {
-        status_line_background(canvas, config, state);
-        status_line_mode(canvas, input, font, config, state);
+        status_line_background(canvas, config);
+        status_line_mode(canvas, input, font, config);
 }

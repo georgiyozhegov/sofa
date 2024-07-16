@@ -3,7 +3,6 @@ mod content;
 mod cursor;
 mod draw;
 mod input;
-mod state;
 
 use config::Config;
 use content::Content;
@@ -12,7 +11,6 @@ use input::{
         Action,
         Input,
 };
-use state::State;
 use raylib::color::Color;
 
 fn main()
@@ -37,7 +35,7 @@ fn main()
         );
 
         let (mut context, thread) = raylib::init()
-                .size(config.window_initial_width, config.window_initial_height)
+                .size(config.window_width, config.window_height)
                 .resizable()
                 .title(config.window_title)
                 .build();
@@ -52,24 +50,20 @@ fn main()
         let mut input = Input::new();
         let mut content = Content::new(&config);
         let mut cursor = Cursor::new(&config);
-        let mut state = State::new(&config);
 
         while !context.window_should_close() {
-                state.update_size(&context);
-
                 {
                         let mut canvas = context.begin_drawing(&thread);
                         draw::background(&mut canvas, &config);
                         draw::content(&mut canvas, &content, &font, &config);
                         draw::cursor(&mut canvas, &cursor, &config);
-                        draw::status_line(&mut canvas, &input, &font, &config, &state);
+                        draw::status_line(&mut canvas, &input, &font, &config);
                 }
 
                 if let Some(action) = input.action(&mut context) {
                         if action == Action::Quit {
                                 break;
                         }
-                        state.update(&action);
                         content.update(&action);
                         cursor.update(&content, &action);
                 }
