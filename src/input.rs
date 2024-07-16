@@ -10,10 +10,12 @@ pub enum Mode
         Base,
 }
 
+
 #[derive(Debug, PartialEq)]
 pub enum Modifier
 {
         Delete,
+        Create,
         GoTo,
 }
 
@@ -36,17 +38,24 @@ pub enum Location
 }
 
 #[derive(Debug, PartialEq)]
-pub enum Item
+pub enum DeleteItem
 {
         Char,
         Line,
 }
 
 #[derive(Debug, PartialEq)]
+pub enum CreateItem {
+        LineAbove,
+        LineBelow,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum Action
 {
         Insert(char),
-        Delete(Item),
+        Delete(DeleteItem),
+        Create(CreateItem),
         NewLine,
         Tab,
         Quit,
@@ -82,7 +91,7 @@ impl Input
                                 self.mode = Mode::Base;
                                 Some(Action::Switch(Mode::Base))
                         }
-                        KeyboardKey::KEY_BACKSPACE => Some(Action::Delete(Item::Char)),
+                        KeyboardKey::KEY_BACKSPACE => Some(Action::Delete(DeleteItem::Char)),
                         KeyboardKey::KEY_ENTER => Some(Action::NewLine),
                         KeyboardKey::KEY_TAB => Some(Action::Tab),
                         _ => Some(Action::Insert(context.get_char_pressed()?)),
@@ -92,13 +101,26 @@ impl Input
         fn base_mode_action_with_delete_modifier(&mut self, key: KeyboardKey) -> Option<Action>
         {
                 match key {
-                        KeyboardKey::KEY_C => Some(Action::Delete(Item::Char)),
-                        KeyboardKey::KEY_L => Some(Action::Delete(Item::Line)),
+                        KeyboardKey::KEY_C => Some(Action::Delete(DeleteItem::Char)),
+                        KeyboardKey::KEY_L => Some(Action::Delete(DeleteItem::Line)),
                         KeyboardKey::KEY_Q => {
                                 self.modifier = None;
                                 None
                         }
                         _ => None,
+                }
+        }
+        
+        fn base_mode_action_with_create_modifier(&mut self, key: KeyboardKey) -> Option<Action>
+        {
+                match key {
+                    KeyboardKey::KEY_A => Some(Action::Create(CreateItem::LineAbove)),
+                    KeyboardKey::KEY_B => Some(Action::Create(CreateItem::LineBelow)),
+                    KeyboardKey::KEY_Q => {
+                            self.modifier = None;
+                            None
+                    }
+                    _ => None,
                 }
         }
 
@@ -121,6 +143,7 @@ impl Input
         {
                 let action = match self.modifier {
                         Some(Modifier::Delete) => self.base_mode_action_with_delete_modifier(key),
+                        Some(Modifier::Create) => self.base_mode_action_with_create_modifier(key),
                         Some(Modifier::GoTo) => self.base_mode_action_with_go_to_modifier(key),
                         _ => None,
                 };
@@ -137,7 +160,7 @@ impl Input
                 }
                 else {
                         match key {
-                                KeyboardKey::KEY_ESCAPE => {
+                                KeyboardKey::KEY_I => {
                                         self.mode = Mode::Insert;
                                         Some(Action::Switch(Mode::Insert))
                                 }
@@ -148,6 +171,10 @@ impl Input
                                 KeyboardKey::KEY_L => Some(Action::Move(Direction::Right)),
                                 KeyboardKey::KEY_D => {
                                         self.modifier = Some(Modifier::Delete);
+                                        None
+                                }
+                                KeyboardKey::KEY_C => {
+                                        self.modifier = Some(Modifier::Create);
                                         None
                                 }
                                 KeyboardKey::KEY_G => {

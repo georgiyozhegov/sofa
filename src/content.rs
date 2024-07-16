@@ -2,7 +2,8 @@ use crate::config::Config;
 use crate::input::{
         Action,
         Direction,
-        Item,
+        DeleteItem,
+        CreateItem,
         Location,
 };
 
@@ -51,8 +52,13 @@ impl Content
         pub fn delete_line(&mut self)
         {
                 if self.row == 0 {
-                        self.content[self.row].clear();
-                        self.column = 0;
+                        if self.column == 0 && self.row + 1 < self.content.len() {
+                            self.row += 1;
+                            self.delete_line();
+                        } else {
+                            self.content[self.row].clear();
+                            self.column = 0;
+                        }
                 }
                 else {
                         self.content.remove(self.row);
@@ -130,12 +136,25 @@ impl Content
                 self.column = self.content[self.row].len();
         }
 
+        pub fn create_line_above(&mut self)
+        {
+                self.content.insert(self.row, String::new());
+                self.column = 0;
+        }
+
+        pub fn create_line_below(&mut self)
+        {
+                self.row += 1;
+                self.column = 0;
+                self.content.insert(self.row, String::new());
+        }
+
         pub fn update(&mut self, action: &Action)
         {
                 match action {
                         Action::Insert(c) => self.insert(*c),
-                        Action::Delete(Item::Char) => self.delete_char(),
-                        Action::Delete(Item::Line) => self.delete_line(),
+                        Action::Delete(DeleteItem::Char) => self.delete_char(),
+                        Action::Delete(DeleteItem::Line) => self.delete_line(),
                         Action::NewLine => self.new_line(),
                         Action::Tab => self.tab(),
                         Action::Move(Direction::Left) => self.move_left(),
@@ -146,6 +165,8 @@ impl Content
                         Action::GoTo(Location::Bottom) => self.go_to_bottom(),
                         Action::GoTo(Location::StartOfLine) => self.go_to_start_of_line(),
                         Action::GoTo(Location::EndOfLine) => self.go_to_end_of_line(),
+                        Action::Create(CreateItem::LineAbove) => self.create_line_above(),
+                        Action::Create(CreateItem::LineBelow) => self.create_line_below(),
                         _ => {}
                 }
         }
