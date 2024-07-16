@@ -28,6 +28,7 @@ fn main()
                 Color::PINK,                                           // background color
                 23,                                                    // status line height
                 Color::WHITE.alpha(0.9),                               // status line color
+                4, // tab size
         );
 
         let (mut context, thread) = raylib::init()
@@ -44,7 +45,7 @@ fn main()
                 .unwrap();
 
         let mut input = Input::new();
-        let mut content = Content::new();
+        let mut content = Content::new(&config);
         let mut cursor = Cursor::new(&config);
 
         while !context.window_should_close() {

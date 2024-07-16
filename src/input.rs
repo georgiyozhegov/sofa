@@ -46,6 +46,7 @@ pub enum Action
         Insert(char),
         Delete(Item),
         NewLine,
+        Tab,
         Quit,
         Move(Direction),
         GoTo(Location),
@@ -81,6 +82,7 @@ impl Input
                         }
                         KeyboardKey::KEY_BACKSPACE => Some(Action::Delete(Item::Char)),
                         KeyboardKey::KEY_ENTER => Some(Action::NewLine),
+                        KeyboardKey::KEY_TAB => Some(Action::Tab),
                         _ => Some(Action::Insert(context.get_char_pressed()?)),
                 }
         }

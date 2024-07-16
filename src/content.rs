@@ -4,22 +4,25 @@ use crate::input::{
         Item,
         Location,
 };
+use crate::config::Config;
 
 pub struct Content
 {
         pub content: Vec<String>,
         pub row: usize,
         pub column: usize,
+        tab_size: usize,
 }
 
 impl Content
 {
-        pub fn new() -> Self
+        pub fn new(config: &Config) -> Self
         {
                 Self {
                         content: vec![String::new()],
                         row: 0,
                         column: 0,
+                        tab_size: config.tab_size,
                 }
         }
 
@@ -66,6 +69,13 @@ impl Content
                 self.content[self.row] = line[..self.column].to_string();
                 self.row += 1;
                 self.column = 0;
+        }
+
+        pub fn tab(&mut self) 
+        {
+                for _ in 0..self.tab_size {
+                    self.insert(' ');
+                }
         }
 
         pub fn move_left(&mut self)
@@ -117,6 +127,7 @@ impl Content
                         Action::Delete(Item::Char) => self.delete_char(),
                         Action::Delete(Item::Line) => self.delete_line(),
                         Action::NewLine => self.new_line(),
+                        Action::Tab => self.tab(),
                         Action::Move(Direction::Left) => self.move_left(),
                         Action::Move(Direction::Down) => self.move_down(),
                         Action::Move(Direction::Up) => self.move_up(),

@@ -15,6 +15,7 @@ pub struct Config
         pub background_color: Color,
         pub status_line_height: i32,
         pub status_line_color: Color,
+        pub tab_size: usize,
 }
 
 impl Config
@@ -32,6 +33,7 @@ impl Config
                 background_color: Color,
                 status_line_height: i32,
                 status_line_color: Color,
+                tab_size: usize,
         ) -> Self
         {
                 Self {
@@ -47,6 +49,7 @@ impl Config
                         background_color,
                         status_line_height,
                         status_line_color,
+                        tab_size,
                 }
         }
 }
