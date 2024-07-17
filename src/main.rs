@@ -15,20 +15,21 @@ use raylib::color::Color;
 
 fn main()
 {
-        let font_size = 25.0;
+        let font_size = 25;
         let config = Config::new(
                 600,                                                   // width
                 480,                                                   // height
                 "Sofa",                                                // title
                 "/usr/share/fonts/TTF/IosevkaNerdFontMono-Medium.ttf", // font
-                font_size,                                             // font size
+                font_size as f32,                                      // font size
                 0.4,                                                   // font scale
                 1.0,                                                   // font spacing
                 Color::BLACK,                                          // font color
                 2,                                                     // cursor stick width
                 Color::WHITE.alpha(0.7),                               // cursor color
+                Some(Color::WHITE.alpha(0.2)),                         // cursor line color
                 Color::PINK,                                           // background color
-                font_size as i32,                                      // status line height
+                font_size,                                             // status line height
                 Color::WHITE.alpha(0.8),                               // status line color
                 Color::BLACK.alpha(0.8),                               // status line font color
                 4,                                                     // tab size
@@ -57,6 +58,7 @@ fn main()
                         draw::background(&mut canvas, &config);
                         draw::content(&mut canvas, &content, &font, &config);
                         draw::cursor(&mut canvas, &cursor, &config);
+                        draw::cursor_line(&mut canvas, &cursor, &config);
                         draw::status_line(&mut canvas, &input, &font, &config);
                 }
 

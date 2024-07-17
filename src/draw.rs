@@ -35,6 +35,19 @@ pub fn content(canvas: &mut RaylibDrawHandle, content: &Content, font: &Font, co
         }
 }
 
+pub fn cursor_line(canvas: &mut RaylibDrawHandle, cursor: &Cursor, config: &Config)
+{
+        if let Some(color) = config.cursor_line_color {
+                canvas.draw_rectangle(
+                        0,
+                        cursor.y,
+                        config.window_width,
+                        config.font_size as i32,
+                        color,
+                );
+        }
+}
+
 pub fn cursor(canvas: &mut RaylibDrawHandle, cursor: &Cursor, config: &Config)
 {
         canvas.draw_rectangle(
