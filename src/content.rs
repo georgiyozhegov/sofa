@@ -1,9 +1,9 @@
 use crate::config::Config;
 use crate::input::{
         Action,
-        Direction,
-        DeleteItem,
         CreateItem,
+        DeleteItem,
+        Direction,
         Location,
 };
 
@@ -53,11 +53,12 @@ impl Content
         {
                 if self.row == 0 {
                         if self.column == 0 && self.row + 1 < self.content.len() {
-                            self.row += 1;
-                            self.delete_line();
-                        } else {
-                            self.content[self.row].clear();
-                            self.column = 0;
+                                self.row += 1;
+                                self.delete_line();
+                        }
+                        else {
+                                self.content[self.row].clear();
+                                self.column = 0;
                         }
                 }
                 else {

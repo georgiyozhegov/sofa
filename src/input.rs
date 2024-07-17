@@ -10,7 +10,6 @@ pub enum Mode
         Base,
 }
 
-
 #[derive(Debug, PartialEq)]
 pub enum Modifier
 {
@@ -45,7 +44,8 @@ pub enum DeleteItem
 }
 
 #[derive(Debug, PartialEq)]
-pub enum CreateItem {
+pub enum CreateItem
+{
         LineAbove,
         LineBelow,
 }
@@ -110,17 +110,17 @@ impl Input
                         _ => None,
                 }
         }
-        
+
         fn base_mode_action_with_create_modifier(&mut self, key: KeyboardKey) -> Option<Action>
         {
                 match key {
-                    KeyboardKey::KEY_A => Some(Action::Create(CreateItem::LineAbove)),
-                    KeyboardKey::KEY_B => Some(Action::Create(CreateItem::LineBelow)),
-                    KeyboardKey::KEY_Q => {
-                            self.modifier = None;
-                            None
-                    }
-                    _ => None,
+                        KeyboardKey::KEY_A => Some(Action::Create(CreateItem::LineAbove)),
+                        KeyboardKey::KEY_B => Some(Action::Create(CreateItem::LineBelow)),
+                        KeyboardKey::KEY_Q => {
+                                self.modifier = None;
+                                None
+                        }
+                        _ => None,
                 }
         }
 
