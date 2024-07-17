@@ -16,7 +16,7 @@ use raylib::color::Color;
 fn main()
 {
         let font_size = 25;
-        let config = Config::new(
+        let mut config = Config::new(
                 600,                                                   // width
                 480,                                                   // height
                 "Sofa",                                                // title
@@ -53,6 +53,8 @@ fn main()
         let mut cursor = Cursor::new(&config);
 
         while !context.window_should_close() {
+                config.update(&context);
+
                 {
                         let mut canvas = context.begin_drawing(&thread);
                         draw::background(&mut canvas, &config);

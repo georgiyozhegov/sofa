@@ -1,4 +1,7 @@
-use raylib::color::Color;
+use raylib::{
+        color::Color,
+        RaylibHandle,
+};
 
 #[derive(Debug)]
 pub struct Config
@@ -60,5 +63,11 @@ impl Config
                         status_line_font_color,
                         tab_size,
                 }
+        }
+
+        pub fn update(&mut self, context: &RaylibHandle)
+        {
+                self.window_width = context.get_screen_width();
+                self.window_height = context.get_screen_height();
         }
 }
