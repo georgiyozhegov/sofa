@@ -22,6 +22,7 @@ pub struct Config
         pub status_line_color: Color,
         pub status_line_font_color: Color,
         pub tab_size: usize,
+        pub file_path: Option<&'static str>,
 }
 
 impl Config
@@ -43,6 +44,7 @@ impl Config
                 status_line_color: Color,
                 status_line_font_color: Color,
                 tab_size: usize,
+                file_path: Option<&'static str>,
         ) -> Self
         {
                 Self {
@@ -62,6 +64,7 @@ impl Config
                         status_line_color,
                         status_line_font_color,
                         tab_size,
+                        file_path,
                 }
         }
 

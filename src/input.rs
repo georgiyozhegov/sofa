@@ -33,6 +33,7 @@ pub enum Location
         Top,
         Bottom,
         StartOfLine,
+        MiddleOfLine,
         EndOfLine,
 }
 
@@ -58,6 +59,7 @@ pub enum Action
         Create(CreateItem),
         NewLine,
         Tab,
+        Write,
         Quit,
         Move(Direction),
         GoTo(Location),
@@ -130,6 +132,7 @@ impl Input
                         KeyboardKey::KEY_T => Some(Action::GoTo(Location::Top)),
                         KeyboardKey::KEY_B => Some(Action::GoTo(Location::Bottom)),
                         KeyboardKey::KEY_S => Some(Action::GoTo(Location::StartOfLine)),
+                        KeyboardKey::KEY_M => Some(Action::GoTo(Location::MiddleOfLine)),
                         KeyboardKey::KEY_E => Some(Action::GoTo(Location::EndOfLine)),
                         KeyboardKey::KEY_Q => {
                                 self.modifier = None;
@@ -164,6 +167,7 @@ impl Input
                                         self.mode = Mode::Insert;
                                         Some(Action::Switch(Mode::Insert))
                                 }
+                                KeyboardKey::KEY_W => Some(Action::Write),
                                 KeyboardKey::KEY_Q => Some(Action::Quit),
                                 KeyboardKey::KEY_H => Some(Action::Move(Direction::Left)),
                                 KeyboardKey::KEY_J => Some(Action::Move(Direction::Down)),

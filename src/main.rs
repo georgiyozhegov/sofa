@@ -12,6 +12,7 @@ use input::{
         Input,
 };
 use raylib::color::Color;
+use std::process::exit;
 
 fn main()
 {
@@ -33,6 +34,7 @@ fn main()
                 Color::WHITE.alpha(0.8),                               // status line color
                 Color::BLACK.alpha(0.8),                               // status line font color
                 4,                                                     // tab size
+                Some("file.txt"),                                      // file path
         );
 
         let (mut context, thread) = raylib::init()
@@ -49,7 +51,15 @@ fn main()
                 .unwrap();
 
         let mut input = Input::new();
-        let mut content = Content::new(&config);
+        let mut content = if config.file_path.is_some() {
+                match Content::read(&config) {
+                        Err(_) => exit(1),
+                        Ok(content) => content,
+                }
+        }
+        else {
+                Content::empty(&config)
+        };
         let mut cursor = Cursor::new(&config);
 
         while !context.window_should_close() {
@@ -68,7 +78,10 @@ fn main()
                         if action == Action::Quit {
                                 break;
                         }
-                        content.update(&action);
+                        match content.update(&action, &config) {
+                                Err(error) => eprintln!("{error}"),
+                                Ok(_) => {}
+                        }
                         cursor.update(&content, &action);
                 }
         }
