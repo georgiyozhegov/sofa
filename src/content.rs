@@ -12,6 +12,7 @@ use std::io::{
         BufReader,
         Result,
         Write,
+        Error,
 };
 
 pub struct Content
@@ -207,12 +208,20 @@ impl Content
                 for line in reader.lines() {
                         content.push(line?);
                 }
+                if content.is_empty() {
+                        content.push(String::new());
+                }
                 Ok(Self::new(content, config))
         }
 
         pub fn write(&self, config: &Config) -> Result<()>
         {
-                let mut file = File::create(config.file_path.unwrap())?;
-                write!(file, "{}", self.content.join("\n"))
+                if let Some(file_path) = config.file_path {
+                        let mut file = File::create(file_path)?;
+                        write!(file, "{}", self.content.join("\n"))
+                }
+                else {
+                        Ok(())
+                }
         }
 }
